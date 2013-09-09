@@ -1,0 +1,14 @@
+<test>
+    <theme>
+        <title>{{ category.name }}</title>
+        {% for question in questions %}
+        <quest>
+            <txt>{{ question.text }}</txt>
+            <img></img>
+            {% for answer in question.retestanswer_set.all %}
+                <answer correct="{% if answer.is_correct %}True{% else %}False{% endif %}">{{ answer.name }}</answer>
+            {% endfor %}
+        </quest>
+        {% endfor %}
+    </theme>
+</test>

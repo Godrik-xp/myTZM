@@ -1,0 +1,42 @@
+<html Content-type="text/html; charset=utf-8")> 
+<head> 
+	<title>
+		Результаты
+	</title>
+	Результаты<br/>
+	
+</head> 
+<body> 
+	Дано ответов: {{questionCount}} <br/>
+	Из них правильных: {{rightAnswers}} <br/>
+	Результат: {{result}} <br/>
+	Оценка: {{evaluation}} <br/>
+	
+	<a href="/trainer/UserPage/"> На главную страницу </a>
+</body>
+<script>  
+function IsCorrect()
+{
+	var rads = document.getElementsByName('answerradio');
+	var form = document.getElementById('MainForm');
+	var res = false;
+	for (var i=0; i < rads.length; i++)
+	   if (rads[i].checked)
+	   {
+			if (rads[i].value == 'True')
+				{
+				res = true;
+				alert(rads[i].value);
+			}
+			alert(rads[i].value);
+		}
+    var val = document.getElementById('variable');
+    var actEl = document.getElementById('actionType');
+    actEl.value = 'next';
+    alert(actEl.value);
+	val.value = res;
+	return true;
+}
+
+</script>  
+</html>

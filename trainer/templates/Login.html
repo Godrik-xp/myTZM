@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html>
+ <head>
+  <title>
+   Авторизация
+  </title>
+ </head>
+ <body>
+	<style>
+	body
+	{
+		background-color: f1f1f1;
+	}
+	div.inner
+	{
+		width: 400px;
+		margin: auto auto;
+		border: solid 1px gray;
+		background-color: white;
+		display: table;
+	 }
+	 div.header
+	 {
+		 background-color: #5388a0;
+		 text-align: center;
+		 color: #f6f58b;
+	 }
+	 div.left
+	 {
+		 float:left;
+		 width:100%;
+	 }
+	div.right
+	{
+		margin-left:70%; 
+		width:0%;
+	}
+	div.errors
+	{
+		margin-top: 10px;
+		margin-left: 20px;
+	}
+	select
+	{
+		height: 130px;
+		width: 100%;
+		margin-bottom: 10px;
+	}
+	option
+	{
+		margin: 2px;
+		overflow: hidden;
+	}
+	img
+	{
+		margin-top: 20px;
+		margin-left: 0px;
+	}
+	input.password
+	{
+		width: 70%;
+		float: right;
+		margin-bottom: 5px;
+	}
+	input.input
+	{
+		width: 100px;
+		margin-top: 0px;
+		float: right;
+		margin-left: 70%;
+		margin-bottom: 10px;
+	}
+	</style>
+  <h1>
+	  
+  </h1>
+  <div class="inner">
+	  <div class="header"> </br> Авторизация </br> </br> </div>
+		<div class="left">
+			<form action="/trainer/login/" method="post" style="margin: 20px">
+				<select multiple id="userlist"  name="userlist" size=4 onchange="selectedChanged();">
+				{% for item in collection %}
+						<option value={{item.username}} 
+						{% if item.username = selectedUser %}
+							selected
+						{% endif%}>
+						 <!--Курсант-->
+						 {{item.last_name}}
+						 {{item.first_name}}
+						 ({{item.username}})
+						</option>
+				{% endfor %}
+				</select>
+					Пароль:
+					<input class="password" type="password" name="Password" value="{{Password}}">
+				<input class="input" type="submit" name="Enter" value="Войти">
+				<div >
+				{% if errors %}
+					<ul>
+						{% for error in errors %}
+						<li>{{ error}} </li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</div>
+			</form>
+			
+		</div>
+		<!--div class="right">
+			<img align="right | top" src="" height="150px">
+		</div-->
+  </div>
+	
+ </body>
+	<script type="text/javascript"> 
+	
+	userlist.onchange = function selectedChanged()
+		{
+		}
+	</script>
+</html>

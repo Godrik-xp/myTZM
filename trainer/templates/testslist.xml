@@ -1,0 +1,5 @@
+<root>
+    {% for test in tests %}
+    <test id="{{ test.id }}" name="{{ test.name }}"></test>
+    {% endfor %}
+</root>

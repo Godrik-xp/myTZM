@@ -1,0 +1,11 @@
+<root>
+    {% if user.is_authenticated %}
+        <user uid="{{ user.id }}"
+              username="{{ user.username }}"
+              first_name="{{ user.first_name }}"
+              last_name="{{ user.last_name }}"
+              sid="{{ session_key }}">Дата регистрации: {{ user.date_joined }}\nПоследний вход: {{ user.last_login }}</user>
+    {% else %}
+        <user>{{ error }}</user>
+    {% endif %}
+</root>

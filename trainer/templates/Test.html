@@ -1,0 +1,105 @@
+<html Content-type="text/html; charset=utf-8")> 
+<head> 
+	<style>
+		input.nextButton
+		{
+			margin-top: 4px;
+		}
+	</style>
+<script language="JavaScript">
+
+	function createInstance()
+	{
+		if (window.XMLHttpRequest)
+		{
+ 			req = new XMLHttpRequest();
+		} 
+		else 
+			alert("XHR not created");
+		return(req);
+	};
+
+
+	function submitForm()
+	{ 
+		var req = createInstance();
+		req.open("POST", '', true);
+		req.send(null);
+		
+		setRequestMethod("POST");
+		
+		//window.location.replace("/trainer/Test1/");
+		//location="/trainer/Test/";
+		//setTimeout( 'location="http://yandex.ru";', 5000 );
+	} 
+	</script>
+	<title>
+		Тестирование
+	</title>
+</head> 
+<body> 
+<form method="post" id="MainForm" >
+<div id="list"></div>
+
+{{tests|safe}}
+№ вопроса: {{questNumber}}
+</br>
+Всего вопросов: {{questCount}}
+</br>
+правильно отвеченно: {{rightAnswers}}
+</br>
+<input class="nextButton" type="submit" name="Submit" value="Следующий вопрос" onclick="return IsCorrect()"> <br/>
+<input type="hidden" id="variable" name="variable" value="awdawd">
+<input type="hidden" id="actionType" name="actionType" value="">
+</form>
+
+</body>
+<script>  
+function IsCorrect()
+{
+var rads = document.getElementsByName('answerradio');
+	if(rads.length == 0){
+		TextCorrect();
+	}else{
+		RadioCorrect();
+		}
+}
+
+function RadioCorrect(){
+	var rads = document.getElementsByName('answerradio');
+	var form = document.getElementById('MainForm');
+	var res = false;
+	var selected = false;
+	for (var i=0; i < rads.length; i++)
+	   if (rads[i].checked)
+	   {
+			if (rads[i].value == 'True')
+				{
+				res = true;
+			}
+			selected = true;
+		}
+    var val = document.getElementById('variable');
+    var actEl = document.getElementById('actionType');
+    actEl.value = 'next';
+	val.value = res;
+	if (!selected)
+		alert("Пожалуйста выберите вариант ответа, который вы считаете правильным")
+	return selected;
+}
+
+function TextCorrect(){
+	var rads = document.getElementsByName('answertext');
+	var res = false;
+	if (rads[0].getAttribute("ans") == rads[0].value)
+				{
+				res = true;
+			}
+	var val = document.getElementById('variable');
+    var actEl = document.getElementById('actionType');
+    actEl.value = 'next';
+	val.value = res;
+}
+
+</script>  
+</html>

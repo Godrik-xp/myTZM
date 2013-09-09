@@ -1,0 +1,25 @@
+{% load tzm_tag %}
+{% for category in categories %}
+<category 
+    id="{{ category.id }}"
+    type="{{ category.get_type_category_display }}"
+    number="{{ category.number }}"
+    is3D="{{ category.is_3D }}"
+    name="{{ category.name }}"
+    description="{{ category.description|default_if_none:"" }}">
+    {% with "category.xml" as filename %}
+        {% with category.children as categories %}
+            {% include filename %}
+        {% endwith %}
+    {% endwith %}
+    {% with logs|by_key:category.id as pre_log %}
+        {% if pre_log %}
+            {% with pre_log|by_key:1 as log %}{% if log %}<demo date="{{ log.date|date:"Y-m-d\TH:i:s" }}" rating="{{ log.rating }}"></demo>{% endif %}{% endwith %}
+            {% with pre_log|by_key:2 as log %}{% if log %}<training date="{{ log.date|date:"Y-m-d\TH:i:s" }}" rating="{{ log.rating }}"></training>{% endif %}{% endwith %}
+            {% with pre_log|by_key:3 as log %}{% if log %}<simulation date="{{ log.date|date:"Y-m-d\TH:i:s" }}" rating="{{ log.rating }}"></simulation>{% endif %}{% endwith %}
+            {% with pre_log|by_key:4 as log %}{% if log %}<control date="{{ log.date|date:"Y-m-d\TH:i:s" }}" rating="{{ log.rating }}"></control>{% endif %}{% endwith %}
+            {% with pre_log|by_key:5 as log %}{% if log %}<test date="{{ log.date|date:"Y-m-d\TH:i:s" }}" rating="{{ log.rating }}"></test>{% endif %}{% endwith %}
+        {% endif %}
+    {% endwith %}
+</category>
+{% endfor %}

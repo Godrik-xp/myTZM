@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>admin</title>
+    <script type="text/javascript" src="/static/jquery-1.8.0.min.js"></script>
+    <style type="text/css">
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    .sider_left {
+        float: left;
+        width: 25%;
+        height: 100%;
+        text-align: center;
+        position: relative;
+    }
+        .sider_left button {
+            width: 220px;
+            height: 120px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin: -60px 0 0 -110px;
+        }
+    .sider_right {
+        float: right;
+        width: 25%;
+        height: 100%;
+    }
+    .display {
+        width: 50%;
+        height: 50%;
+        margin: 0 auto;
+        text-align: center;
+    }
+    .is_sync {
+        background: green;
+        color: white;
+    }
+    </style>
+</head>
+<body>
+    <div class="sider_right"><input type="checkbox" id="is_update">Обновлять экран</div>
+    <div class="sider_left">
+        <button id="sync_button" class="{% if sync_state %}is_sync{% endif %}">Синхронизация<br/>{% if sync_state %}включена{% else %}выключена{% endif %}</button>
+    </div>
+    <div class="display"><img id="display1_img" src="/static/display1.jpg" height="100%"></div>
+    <div class="display"><img id="display2_img"  src="/static/display2.jpg" height="100%"></div>
+    <script type="text/javascript">
+    $(function() {
+        $('#sync_button').click(function(){
+            var el = $(this);
+            var set_state = '1';
+            if(el.hasClass('is_sync')) {
+                set_state = '0';
+            }
+            $.ajax('{% url sync_state %}?state=' + set_state).done(function(data){
+                if(data.indexOf('True') >= 0) {
+                    el.addClass('is_sync');
+                    el.html('Синхронизация<br/>включена');
+                } else {
+                    el.removeClass('is_sync');
+                    el.html('Синхронизация<br/>выключена');
+                }
+            });
+        });
+
+        var img_src1 = $('#display1_img').attr('src');
+        var img_src2 = $('#display2_img').attr('src');
+        setInterval(function(){
+            if ($('#is_update').attr("checked")=="checked") {
+                $('#display1_img').attr('src', img_src1 + '?' + new Date().getTime());
+                $('#display2_img').attr('src', img_src2 + '?' + new Date().getTime());
+            }
+        }, 1000);
+    });
+    </script>
+</body>
+</html>

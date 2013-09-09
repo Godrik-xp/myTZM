@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html>
+ <head>
+ <style>
+	.tree
+	{
+		cursor: pointer;
+	}
+	div
+	{
+		display: inline-block;
+	}
+	tr.header
+	{
+		background-color: #5388a0;
+		text-align: center;
+		vertical-align: text-bottom;
+		color: #f6f58b;
+	}
+	div.rating
+	{
+		width: 150px;
+		float: right;
+	}
+	div.is3d
+	{
+		width: 110px;
+		float: right;
+	}
+	div.demo
+	{
+		width: 110px;
+		float: right;
+	}
+	td.header
+	{
+		background-color: #EDEDED;
+		border-color: #FDFDFD;
+		border-left-style: solid;
+		border-left-color: #BDBDBD;
+	}
+</style>
+  <title>
+   Страница пользователя
+  </title>
+ </head>
+ <body>
+   <form action="/trainer/UserPage/" method="post" style="min-width: 1100px">
+		<table width="100%" border="0" cellspacing="0" cellpadding="4">
+			<tr class="header">
+				<td colspan="6" style="font-size: 160%; font-family: sans-serif" style="vertical-align: middle">
+					<img src="{{photo.img.url}}" height="60px" align="left">
+					</img>Курсант {{user.last_name}} {{user.first_name}} 
+				</td>
+			</tr>
+			<tr>
+				<td align="left" class="header" >Тема</td>
+				<td align="left" class="header" width="150px">Статус</td>
+				<td align="left" class="header" width="110px">3D</td>
+				<td align="left" class="header" width="110px">Демо</td>
+			</tr>
+			<tr>
+			<td colspan="5" valign="top">
+				<ul style="float: top" class="tree" id="tree">
+					{{categories|safe}}
+				</ul>
+			</td>
+			<td valign="top" width="15%" style="float: top">
+				<p>
+					<textarea readonly rows="10" style="width:100%" id="description" name="description" value="{{selectedCategory}}">
+					</textarea>
+				</p>
+				<input type="button" name="demo" value="Демо" style="width:100%" onclick="democlick()"><br/>
+				<input type="submit" name="test" value="Тест" style="width:100%" onclick="testclick()"><br/>
+				<input type="button" name="simul" value="Симуляция" style="width:100%"><br/>
+				<input type="button" name="learn" value="Обучение" style="width:100%"><br/>
+				<input type="submit" name="control" value="Контроль" onclick="practiceclick()" style="width:100%"><br/>
+				<input type="submit" name="exit" value="Выход" style="width:100%" onclick="logout()"><br/>
+				</td>
+			</tr>
+		  </table>
+		  <input type="hidden" id="variable" name="variable" value="">
+		  <input type="hidden" id="actionType" name="actionType" value="">
+  </form>
+	<script>
+	var tree = document.getElementById('tree');
+	var lastSelectedId;
+	
+	tree.onclick = function(evt) {
+	  var evt = evt || event;
+	  var target = evt.target || evt.srcElement;
+	  if (target.nodeName != "LI")
+		while (target.nodeName != "LI")
+			{
+				target = target.parentNode;
+			}
+	  var lastSelectedNode = document.getElementById(lastSelectedId);
+	  if (lastSelectedNode != null)
+		lastSelectedNode.style.backgroundColor = 'white';
+	  lastSelectedId = target.id;
+	  var val = document.getElementById('variable');
+	  val.value = lastSelectedId;
+	  
+	  forme = document.getElementById('variable');
+	  forme.value = lastSelectedId;
+
+	  
+	  /* раскрыть-закрыть детей */
+	  var node = target.getElementsByTagName('ul')[0];
+	  target.style.backgroundColor = 'gray';
+	  if (!node)
+	  {
+		  return; // нет детей
+	  }
+	  
+	  node.style.display = node.style.display ? '' : 'none';
+	  node.style.backgroundColor = "white";
+	}
+
+	tree.onmousedown = tree.onselectstart = function() {
+	  return false;
+	};
+	
+	</script>
+ </body>
+<script type="text/javascript">  
+function democlick()
+{
+	  eee = 'http://127.0.0.1:8000/trainer/video/'+forme.value;
+	  window.location = eee;
+}
+function testclick()
+{
+	var variable = document.getElementById('actionType');
+	variable.value = 'test';
+}
+function practiceclick()
+{
+	var variable = document.getElementById('actionType');
+	variable.value = 'practice';
+}
+function logout()
+{
+	var variable = document.getElementById('actionType');
+	variable.value = 'logout';
+}
+
+function cat(name, description)
+{
+  this.name = name;
+  this.description  = description;
+}
+</script>  
+</html>
